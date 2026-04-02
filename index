@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Co-Relate アプリデモ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* iOS風のシステムフォントを適用 */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    }
+    /* スクロールバーを隠すユーティリティ */
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-200 flex items-center justify-center p-4 text-gray-800">
+
+  <!-- iPhoneモックアップ枠 (iPhone 14/15 Pro風の比率) -->
+  <div class="w-[393px] h-[852px] bg-white rounded-[3.5rem] shadow-2xl relative overflow-hidden border-[12px] border-gray-900 flex flex-col">
+    
+    <!-- Dynamic Island (ノッチ) -->
+    <div class="absolute top-2 left-1/2 transform -translate-x-1/2 w-32 h-[30px] bg-black rounded-full z-50"></div>
+
+    <!-- ステータスバー (iOS風) -->
+    <div class="flex justify-between items-center px-6 pt-3 pb-1 text-[13px] font-semibold z-40 relative">
+      <span class="pl-2 tracking-tight">4:19</span>
+      <div class="flex space-x-1.5 items-center text-gray-900 pr-1">
+        <!-- 電波 -->
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M2 22h20V2L2 22zm18-2H6.83L20 6.83V20z"/></svg>
+        <!-- Wi-Fi -->
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.95 3 3.15 4.85 0 7.23L12 22 24 7.23C20.85 4.85 17.05 3 12 3zm0 3.36c4.08 0 7.45 1.44 9.94 3.32L12 19.38 2.06 9.68C4.55 7.8 7.92 6.36 12 6.36z"/></svg>
+        <!-- バッテリー -->
+        <div class="w-6 h-3 border border-gray-900 rounded-[4px] relative flex items-center p-[1px]">
+          <div class="bg-gray-900 h-full w-[80%] rounded-sm"></div>
+          <div class="absolute -right-[3px] w-[2px] h-1.5 bg-gray-900 rounded-r-[2px]"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- メインコンテンツエリア (スクロール可能) -->
+    <div class="flex-1 overflow-y-auto pb-28 scrollbar-hide relative mt-2">
+      
+      <!-- ========================================= -->
+      <!-- 1. 関係性タブ (初期表示) -->
+      <!-- ========================================= -->
+      <div id="tab-relationship" class="tab-content block">
+        <!-- ヘッダー -->
+        <div class="text-center pt-2 pb-2">
+          <h1 class="text-lg font-bold text-gray-900 tracking-tight">3月のお互いの理解</h1>
+          <!-- Infinity Icon -->
+          <svg class="w-6 h-6 mx-auto mt-1 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 12c-2-2.67-4-4-6-4a4 4 0 1 0 0 8c2 0 4-1.33 6-4Zm0 0c2 2.67 4 4 6 4a4 4 0 1 0 0-8c-2 0-4 1.33-6 4Z"/></svg>
+        </div>
+
+        <!-- ベン図 (関係性の可視化) -->
+        <div class="relative flex justify-center items-center h-48 mt-2 mb-6">
+          <!-- 左の円 (黄色) -->
+          <div class="absolute w-36 h-36 bg-yellow-300 rounded-full mix-blend-multiply opacity-60 blur-xl transform -translate-x-12"></div>
+          <!-- 右の円 (オレンジ) -->
+          <div class="absolute w-36 h-36 bg-orange-400 rounded-full mix-blend-multiply opacity-60 blur-xl transform translate-x-12"></div>
+          
+          <!-- アバター (太郎さんと花子さん) -->
+          <div class="absolute top-36 w-full flex justify-center gap-16 px-12">
+            <!-- 太郎さん -->
+            <div class="flex flex-col items-center">
+              <div class="w-12 h-12 rounded-full bg-gray-200 border-2 border-white shadow-sm overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="太郎" class="w-full h-full object-cover" />
+              </div>
+              <span class="text-[11px] mt-1 font-semibold text-gray-600">太郎さん</span>
+            </div>
+            <!-- 花子さん -->
+            <div class="flex flex-col items-center">
+              <div class="w-12 h-12 rounded-full bg-gray-200 border-2 border-white shadow-sm overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="花子" class="w-full h-full object-cover" />
+              </div>
+              <span class="text-[11px] mt-1 font-semibold text-gray-600">花子さん</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- フィードバックカード（担当仲人の顔出しバージョン） -->
+        <div class="px-5 mt-4">
+          <div class="bg-[#FFF0F0] rounded-3xl p-5 shadow-sm border border-rose-100/50">
+            
+            <!-- 仲人のヘッダー -->
+            <div class="flex items-center gap-3 mb-4 pb-3 border-b border-rose-200/50">
+              <div class="w-10 h-10 rounded-full overflow-hidden border border-rose-200 shadow-sm bg-white">
+                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="仲人 鈴木" class="w-full h-full object-cover" />
+              </div>
+              <div>
+                <p class="text-[10px] text-rose-500 font-bold mb-0.5 tracking-wider">専任アドバイザー</p>
+                <h2 class="text-[13px] font-bold text-gray-900 tracking-tight">鈴木からのフィードバック</h2>
+              </div>
+            </div>
+
+            <!-- 3月の振り返りテキスト -->
+            <div class="mb-5">
+              <p class="text-[13px] text-gray-700 leading-[1.6] mb-3">
+                太郎さん、花子さん、3月4日の仮交際スタートから2回のデートお疲れ様でした！最初こそ少し緊張されていたようですが、お二人ともすぐにリラックスした良い対話ができていたと思います。
+              </p>
+              <p class="text-[13px] text-gray-700 leading-[1.6] mb-4">
+                AIの分析も踏まえますと、太郎さんの仕事のお話が少し多くなっている傾向があります。次回は太郎さんから花子さんへ質問を投げかけて、お話を聞いてみると、より深くお互いを理解できるようになりますよ。
+              </p>
+              <button onclick="openModal('detail-modal')" class="flex items-center justify-center w-full text-[12px] font-semibold text-gray-600 bg-white border border-gray-200 px-3 py-2.5 rounded-full shadow-sm hover:bg-gray-50 active:bg-gray-100 transition">
+                AIの分析詳細を見る 
+                <svg class="w-3.5 h-3.5 ml-1 text-gray-400" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+            </div>
+
+            <!-- 次に推奨するアクション -->
+            <div class="bg-white/80 p-4 rounded-[1.25rem]">
+              <div class="flex items-center gap-2 mb-2">
+                <svg class="w-4 h-4 text-rose-500" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
+                <h3 class="text-[13px] font-bold text-gray-900 tracking-tight">次回のおすすめアクション</h3>
+              </div>
+              <p class="text-[12px] text-gray-600 leading-relaxed mb-2">
+                お互いの仕事や趣味について共有できたので、次は価値観について話してみましょう。
+              </p>
+              <ul class="text-[12px] text-gray-700 leading-[1.6] list-disc pl-4 space-y-1">
+                <li>リラックスできる「駅近のカフェ」でのデート</li>
+                <li>「休日の理想の過ごし方」をテーマに話す</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 結婚相談所へのアップセル導線（属人的なアプローチ） -->
+        <div class="px-5 mt-6 mb-8">
+          <div class="bg-gradient-to-br from-[#2C2C2E] to-[#1C1C1E] rounded-[1.5rem] p-5 text-white shadow-lg relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-4 opacity-10">
+              <svg class="w-16 h-16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4M3 5h4M19 3v4M17 5h4M5 19v4M3 21h4M19 19v4M17 21h4"/></svg>
+            </div>
+            <div class="relative z-10 flex flex-col items-start">
+              <h3 class="text-[14px] font-bold mb-1.5 tracking-tight">もっと確実に関係を進めたい方へ</h3>
+              <p class="text-[11px] text-gray-300 mb-4 leading-[1.5]">
+                アプリでのやり取りに迷ったら、担当の鈴木に直接相談してみませんか？プロの視点で具体的なアドバイスをいたします。
+              </p>
+              <button onclick="openModal('counseling-modal')" class="w-full bg-white text-gray-900 text-[13px] font-bold py-3 rounded-xl shadow-sm hover:bg-gray-100 active:bg-gray-200 transition flex justify-center items-center gap-2">
+                <svg class="w-4 h-4 text-rose-500" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 10.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/><path d="M21.2 15.6c-.6-.6-1.5-.6-2.1 0l-4.2 4.2c-.2.2-.3.4-.3.7v2.1c0 .3.2.5.5.5h2.1c.3 0 .5-.1.7-.3l4.2-4.2c.6-.6.6-1.5 0-2.1Z"/></svg>
+                鈴木にオンライン無料相談する
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================= -->
+      <!-- 2. お相手 (キモチ) タブ -->
+      <!-- ========================================= -->
+      <div id="tab-profile" class="tab-content hidden animate-in fade-in duration-300 bg-gray-50 h-full">
+        <!-- ヘッダー -->
+        <div class="bg-white px-5 py-4 border-b sticky top-0 z-10 flex items-center justify-center shadow-sm">
+          <h1 class="text-[16px] font-bold text-gray-900 tracking-tight">花子さんのキモチ・コンディション</h1>
+        </div>
+
+        <div class="p-5 space-y-5 pb-10">
+          <!-- 今の気分 -->
+          <div class="bg-white p-5 rounded-[1.5rem] shadow-sm flex items-center justify-between border border-gray-100">
+            <div>
+              <p class="text-[11px] text-gray-500 font-bold mb-1 tracking-wider">現在のコンディション</p>
+              <h2 class="text-[18px] font-bold text-gray-900">少しお疲れ気味 ☕️</h2>
+            </div>
+            <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center">
+              <span class="text-xl">😮‍💨</span>
+            </div>
+          </div>
+          <p class="text-[12px] text-gray-500 px-2 leading-[1.5]">※仕事のプロジェクトが佳境に入っており、平日は心身ともに余裕がない状態のようです。</p>
+
+          <!-- 太郎さんへ伝えたいホンネ (AIが代弁) -->
+          <div class="bg-white rounded-[1.5rem] shadow-sm overflow-hidden border border-rose-100">
+            <div class="bg-rose-50/80 px-5 py-3 border-b border-rose-100 flex items-center gap-2">
+              <svg class="w-4 h-4 text-rose-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <h3 class="text-[13px] font-bold text-rose-800">直接言いにくいホンネ（AI代弁）</h3>
+            </div>
+            <div class="p-5 space-y-4">
+              <!-- 不満・悩み 1 -->
+              <div class="flex gap-3">
+                 <div class="w-8 h-8 rounded-full bg-white border border-gray-200 shadow-sm flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span class="text-sm">💬</span>
+                 </div>
+                 <div>
+                   <p class="text-[13px] font-bold text-gray-800 mb-1">連絡のペースについて</p>
+                   <p class="text-[12px] text-gray-600 leading-[1.6]">「毎日LINEをくれるのは嬉しい反面、夜遅いと返信に少しプレッシャーを感じてしまうかも…」と少し負担に感じているサインが出ています。</p>
+                 </div>
+              </div>
+              <div class="w-full h-px bg-gray-100"></div>
+              <!-- 不満・悩み 2 -->
+              <div class="flex gap-3">
+                 <div class="w-8 h-8 rounded-full bg-white border border-gray-200 shadow-sm flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span class="text-sm">💡</span>
+                 </div>
+                 <div>
+                   <p class="text-[13px] font-bold text-gray-800 mb-1">次のデートへのご要望</p>
+                   <p class="text-[12px] text-gray-600 leading-[1.6]">「太郎さんがお店を全部決めてくれるのは頼もしいけど、たまには私も一緒に選びたいな」と思っているようです。</p>
+                 </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 太郎さんに対するポジティブな感情 -->
+          <div class="bg-white rounded-[1.5rem] shadow-sm p-5 border border-gray-100">
+            <h3 class="text-[13px] font-bold text-gray-800 mb-4 flex items-center gap-2">
+              <svg class="w-4 h-4 text-orange-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+              あなたへのポジティブな気持ち
+            </h3>
+            <div class="space-y-3">
+              <div class="bg-orange-50/50 rounded-xl p-3.5 text-[12px] text-gray-700 leading-[1.5]">
+                「先日のデートで、仕事の愚痴を否定せずに聞いてくれて、すごく心が軽くなりました！」
+              </div>
+              <div class="bg-orange-50/50 rounded-xl p-3.5 text-[12px] text-gray-700 leading-[1.5]">
+                「一緒にいると、沈黙があっても気まずくなくて安心します。」
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-gray-100 rounded-xl p-4 text-center">
+             <p class="text-[11px] text-gray-500 leading-relaxed">
+               ※この情報は、日々のAIヒアリングを通じて<br>花子さんの了承のもと共有されています。
+             </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ========================================= -->
+      <!-- 2. お相手 (プロフィール) タブ -->
+      <!-- ========================================= -->
+      <div id="tab-profile" class="tab-content hidden animate-in fade-in duration-300">
+        <!-- プロフィール画像エリア -->
+        <div class="relative w-full h-80 bg-gray-200">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="花子" class="w-full h-full object-cover" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+          <div class="absolute bottom-4 left-5 text-white">
+            <h2 class="text-2xl font-bold tracking-tight mb-1">花子</h2>
+            <p class="text-sm opacity-90 flex items-center gap-1">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              東京都 • 28歳
+            </p>
+          </div>
+        </div>
+
+        <!-- プロフィール情報エリア -->
+        <div class="px-5 py-6 space-y-6">
+          <!-- 基本情報 -->
+          <div class="bg-white p-5 rounded-[1.5rem] shadow-sm">
+            <h3 class="text-[14px] font-bold text-gray-900 mb-4 border-b pb-2">基本情報</h3>
+            <div class="grid grid-cols-2 gap-y-3 text-[13px]">
+              <div class="text-gray-500">お仕事</div>
+              <div class="text-gray-800 font-medium text-right">メーカー企画職</div>
+              <div class="text-gray-500">休日</div>
+              <div class="text-gray-800 font-medium text-right">土日休み</div>
+              <div class="text-gray-500">身長</div>
+              <div class="text-gray-800 font-medium text-right">158cm</div>
+              <div class="text-gray-500">お酒</div>
+              <div class="text-gray-800 font-medium text-right">たしなむ程度</div>
+            </div>
+          </div>
+
+          <!-- 価値観・タグ -->
+          <div>
+            <h3 class="text-[14px] font-bold text-gray-900 mb-3 px-1">大切にしていること</h3>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1.5 bg-rose-50 text-rose-600 rounded-full text-[12px] font-semibold">休日はのんびり</span>
+              <span class="px-3 py-1.5 bg-rose-50 text-rose-600 rounded-full text-[12px] font-semibold">カフェ巡り</span>
+              <span class="px-3 py-1.5 bg-rose-50 text-rose-600 rounded-full text-[12px] font-semibold">お互いを尊重</span>
+              <span class="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-full text-[12px] font-semibold">映画鑑賞</span>
+              <span class="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-full text-[12px] font-semibold">料理</span>
+            </div>
+          </div>
+
+          <!-- 自己紹介 -->
+          <div>
+            <h3 class="text-[14px] font-bold text-gray-900 mb-3 px-1">自己紹介</h3>
+            <div class="bg-white p-5 rounded-[1.5rem] shadow-sm text-[13px] text-gray-700 leading-relaxed">
+              はじめまして！プロフィールを見ていただきありがとうございます。<br><br>
+              普段はメーカーで商品の企画をしており、やりがいを感じながら働いています。休日は美味しいコーヒーを探してカフェ巡りをしたり、家で映画を見ながらのんびり過ごすことが多いです。<br><br>
+              お互いの仕事や趣味を尊重しつつ、些細なことでも話し合えるような、温かい関係を築いていけたらいいなと思っています。よろしくお願いします！
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================= -->
+      <!-- 3. トーク タブ (簡易モック) -->
+      <!-- ========================================= -->
+      <div id="tab-chat" class="tab-content hidden h-full flex flex-col bg-gray-50">
+        <div class="bg-white px-5 py-3 border-b flex items-center justify-center sticky top-0 z-10 shadow-sm">
+          <h1 class="text-[15px] font-bold text-gray-900">花子</h1>
+        </div>
+        <div class="flex-1 p-5 space-y-4 overflow-y-auto">
+          <div class="text-center text-[10px] text-gray-400 my-2">3月4日(日) 仮交際がスタートしました</div>
+          
+          <!-- お相手の吹き出し -->
+          <div class="flex items-end gap-2">
+            <div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover">
+            </div>
+            <div class="bg-white p-3 rounded-2xl rounded-bl-none shadow-sm text-[13px] text-gray-800 max-w-[70%]">
+              今日はありがとうございました！とても楽しかったです☺️
+            </div>
+            <span class="text-[10px] text-gray-400 mb-1">18:30</span>
+          </div>
+
+          <!-- 自分の吹き出し -->
+          <div class="flex items-end justify-end gap-2">
+            <span class="text-[10px] text-gray-400 mb-1">既読<br>18:45</span>
+            <div class="bg-rose-500 p-3 rounded-2xl rounded-br-none shadow-sm text-[13px] text-white max-w-[70%]">
+              こちらこそありがとうございました！パスタ美味しかったですね🍝 また近いうちにお食事行きましょう！
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================= -->
+      <!-- 4. マイページ タブ (簡易モック) -->
+      <!-- ========================================= -->
+      <div id="tab-menu" class="tab-content hidden px-5 py-6">
+        <h1 class="text-2xl font-bold text-gray-900 mb-6">マイページ</h1>
+        
+        <div class="bg-white p-5 rounded-[1.5rem] shadow-sm mb-6 flex items-center gap-4">
+          <div class="w-16 h-16 rounded-full overflow-hidden bg-gray-200">
+            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover">
+          </div>
+          <div>
+            <h2 class="font-bold text-gray-900 text-[15px]">太郎</h2>
+            <p class="text-[12px] text-gray-500">無料会員</p>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <div class="bg-white p-4 rounded-[1rem] shadow-sm flex justify-between items-center text-[14px]">
+            <span class="font-medium">プロフィール編集</span>
+            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+          <div class="bg-white p-4 rounded-[1rem] shadow-sm flex justify-between items-center text-[14px]">
+            <span class="font-medium">価値観診断のやり直し</span>
+            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+          <div class="bg-white p-4 rounded-[1rem] shadow-sm flex justify-between items-center text-[14px]">
+            <span class="font-medium">各種設定</span>
+            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ボトムナビゲーションエリア (背景ぼかし) -->
+    <div class="absolute bottom-0 w-full bg-white/90 backdrop-blur-md border-t border-gray-100 flex justify-around items-start pt-3 pb-8 px-2 z-20 rounded-b-[3rem]">
+      <button onclick="setActiveTab('relationship')" id="nav-relationship" class="nav-btn p-2 transition-colors text-rose-500 scale-105 flex flex-col items-center gap-1">
+        <svg class="w-[26px] h-[26px]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 12c-2-2.67-4-4-6-4a4 4 0 1 0 0 8c2 0 4-1.33 6-4Zm0 0c2 2.67 4 4 6 4a4 4 0 1 0 0-8c-2 0-4 1.33-6 4Z"/></svg>
+        <span class="text-[10px] font-medium nav-text text-rose-500">関係性</span>
+      </button>
+      <button onclick="setActiveTab('profile')" id="nav-profile" class="nav-btn p-2 transition-colors text-gray-400 hover:text-gray-500 scale-100 flex flex-col items-center gap-1">
+        <svg class="w-[26px] h-[26px]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span class="text-[10px] font-medium nav-text text-gray-400">キモチ</span>
+      </button>
+      <button onclick="setActiveTab('chat')" id="nav-chat" class="nav-btn p-2 transition-colors text-gray-400 hover:text-gray-500 scale-100 flex flex-col items-center gap-1">
+        <svg class="w-[26px] h-[26px]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+        <span class="text-[10px] font-medium nav-text text-gray-400">トーク</span>
+      </button>
+      <button onclick="setActiveTab('menu')" id="nav-menu" class="nav-btn p-2 transition-colors text-gray-400 hover:text-gray-500 scale-100 flex flex-col items-center gap-1">
+        <svg class="w-[26px] h-[26px]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        <span class="text-[10px] font-medium nav-text text-gray-400">マイページ</span>
+      </button>
+
+      <!-- iPhone ホームインジケーター -->
+      <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-[134px] h-[5px] bg-black rounded-full"></div>
+    </div>
+
+    <!-- 詳細モーダル (詳しくみる) -->
+    <div id="detail-modal" class="hidden absolute inset-0 bg-black/40 z-50 flex items-end rounded-[3rem] transition-opacity backdrop-blur-sm">
+      <div class="bg-white w-full h-[75%] rounded-t-[2.5rem] p-6 flex flex-col transition-transform transform translate-y-0">
+        <!-- モーダルのドラッグハンドル -->
+        <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mb-5"></div>
+        
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-[17px] font-bold text-gray-900 tracking-tight">AI分析レポート詳細</h3>
+          <button onclick="closeModal('detail-modal')" class="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition">
+            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
+        <div class="flex-1 overflow-y-auto pb-6 space-y-4">
+          <div class="bg-gray-50 p-4 rounded-[1.25rem] border border-gray-100">
+            <h4 class="font-bold text-[13px] text-gray-800 mb-2">コミュニケーションの傾向</h4>
+            <p class="text-[13px] text-gray-600 leading-[1.6]">太郎さんは発話量の60%を占めており、特に仕事に関する話題が中心です。花子さんは聞き役に回ることが多く、リアクションはポジティブですが、自身の意見を述べる機会が少なくなっています。</p>
+          </div>
+          <div class="bg-rose-50/50 p-4 rounded-[1.25rem] border border-rose-100">
+            <h4 class="font-bold text-[13px] text-rose-800 mb-2">価値観のすり合わせ進捗</h4>
+            <p class="text-[13px] text-gray-600 leading-[1.6]">「仕事への姿勢」については理解が深まっていますが、「休日の過ごし方」「金銭感覚」についての対話がまだ不足しています。次回のデートで意識的に触れてみましょう。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- カウンセリング予約モーダル (アップセル導線) -->
+    <div id="counseling-modal" class="hidden absolute inset-0 bg-black/50 z-50 flex items-center justify-center p-5 rounded-[3rem] transition-opacity backdrop-blur-sm">
+      <div class="bg-white w-full rounded-[2rem] p-7 shadow-2xl relative transform transition-all scale-100">
+        <button onclick="closeModal('counseling-modal')" class="absolute top-5 right-5 p-1.5 bg-gray-100 rounded-full hover:bg-gray-200">
+          <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+        
+        <div class="w-16 h-16 rounded-full overflow-hidden border border-gray-200 shadow-sm mx-auto mb-4 bg-white">
+          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=150&q=80" alt="仲人 鈴木" class="w-full h-full object-cover" />
+        </div>
+        <h3 class="text-[16px] font-bold text-center text-gray-900 mb-1 tracking-tight">担当アドバイザー 鈴木</h3>
+        <p class="text-[13px] text-gray-600 text-center mb-5 leading-[1.6]">
+          これまでのAI分析データを元に、お二人に最適な次のステップをご提案します。<br/><span class="text-[11px] text-gray-500">（オンライン相談 30分・無料）</span>
+        </p>
+
+        <!-- 候補日時エリア -->
+        <div class="mb-6">
+          <p class="text-[12px] font-bold text-gray-800 mb-3">面談希望日時をご選択ください</p>
+          <div id="candidate-dates" class="space-y-2.5">
+            <!-- JSでここにランダムな日時候補が挿入されます -->
+          </div>
+        </div>
+        
+        <div class="space-y-3">
+          <button onclick="bookCounseling()" class="w-full bg-[#1C1C1E] text-white text-[15px] font-bold py-3.5 rounded-[14px] hover:bg-black transition shadow-sm active:scale-[0.98]">
+            この日時で予約する
+          </button>
+          <button onclick="closeModal('counseling-modal')" class="w-full bg-gray-100 text-gray-700 text-[15px] font-bold py-3.5 rounded-[14px] hover:bg-gray-200 transition active:scale-[0.98]">
+            キャンセル
+          </button>
+        </div>
+        <p class="text-[11px] text-gray-400 text-center mt-5">
+          ※無理な勧誘等は一切ございません。
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ナビゲーションの切り替えロジック
+    function setActiveTab(tabId) {
+      // 1. ボタンの見た目をリセット
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('text-rose-500', 'scale-105');
+        btn.classList.add('text-gray-400', 'scale-100');
+        const text = btn.querySelector('.nav-text');
+        text.classList.remove('text-rose-500');
+        text.classList.add('text-gray-400');
+      });
+      
+      // 2. 選択されたボタンの見た目をアクティブに
+      const activeBtn = document.getElementById('nav-' + tabId);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-gray-400', 'scale-100');
+        activeBtn.classList.add('text-rose-500', 'scale-105');
+        const text = activeBtn.querySelector('.nav-text');
+        text.classList.remove('text-gray-400');
+        text.classList.add('text-rose-500');
+      }
+
+      // 3. コンテンツの表示/非表示を切り替え
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.add('hidden');
+        content.classList.remove('block');
+      });
+      const activeContent = document.getElementById('tab-' + tabId);
+      if (activeContent) {
+        activeContent.classList.remove('hidden');
+        activeContent.classList.add('block');
+      }
+    }
+
+    // ランダムな候補日時を生成して表示するロジック
+    function generateRandomDates() {
+      const container = document.getElementById('candidate-dates');
+      container.innerHTML = ''; 
+      
+      const today = new Date();
+      const candidates = [];
+      
+      // 3つのランダムな日時を生成 (明日から10日後まで)
+      for (let i = 0; i < 3; i++) {
+        const daysToAdd = Math.floor(Math.random() * 10) + 1; 
+        const hour = Math.floor(Math.random() * 9) + 10; // 10:00 〜 18:00
+        
+        const date = new Date(today);
+        date.setDate(date.getDate() + daysToAdd);
+        
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const dayOfWeekStr = ['日', '月', '火', '水', '木', '金', '土'][date.getDay()];
+        
+        candidates.push({
+          dateStr: `${month}月${day}日(${dayOfWeekStr})`,
+          timeStr: `${hour}:00 - ${hour}:30`,
+          timestamp: date.getTime() + hour * 3600000 
+        });
+      }
+      
+      // 日時が早い順にソート
+      candidates.sort((a, b) => a.timestamp - b.timestamp);
+      
+      // HTML生成
+      candidates.forEach((candidate, index) => {
+        const isChecked = index === 0;
+        const activeClass = isChecked ? 'border-rose-500 bg-rose-50/50' : 'border-gray-200 bg-white';
+        
+        const html = `
+          <label class="date-label flex items-center p-3.5 border rounded-[12px] cursor-pointer transition-all ${activeClass}">
+            <div class="flex items-center gap-3 w-full">
+              <div class="relative flex items-center justify-center">
+                <input type="radio" name="counseling-date" value="${candidate.dateStr} ${candidate.timeStr}" class="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-full checked:border-rose-500 transition-colors" ${isChecked ? 'checked' : ''}>
+                <div class="w-2.5 h-2.5 rounded-full bg-rose-500 absolute scale-0 peer-checked:scale-100 transition-transform"></div>
+              </div>
+              <span class="text-[14px] font-semibold text-gray-800">${candidate.dateStr}</span>
+              <span class="text-[13px] text-gray-500 ml-auto">${candidate.timeStr}</span>
+            </div>
+          </label>
+        `;
+        container.insertAdjacentHTML('beforeend', html);
+      });
+
+      // 選択状態に応じてスタイリングを変更するイベントリスナー
+      const labels = container.querySelectorAll('.date-label');
+      labels.forEach(label => {
+        const radio = label.querySelector('input[type="radio"]');
+        radio.addEventListener('change', () => {
+          labels.forEach(l => {
+            l.classList.remove('border-rose-500', 'bg-rose-50/50');
+            l.classList.add('border-gray-200', 'bg-white');
+          });
+          if (radio.checked) {
+            label.classList.remove('border-gray-200', 'bg-white');
+            label.classList.add('border-rose-500', 'bg-rose-50/50');
+          }
+        });
+      });
+    }
+
+    // 予約実行時のロジック
+    function bookCounseling() {
+      const selected = document.querySelector('input[name="counseling-date"]:checked');
+      if (selected) {
+        alert(`【予約完了】\n${selected.value}\n担当アドバイザー鈴木とのオンライン面談をご予約いたしました。\n詳細はメッセージをご確認ください。`);
+        closeModal('counseling-modal');
+      }
+    }
+
+    // モーダルの開閉ロジック
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        if (modalId === 'counseling-modal') {
+          generateRandomDates(); // モーダルを開くたびにランダム日時を生成
+        }
+        modal.classList.remove('hidden');
+        // iOS Safari対策: モーダルを開いた時に背景のスクロールを防ぐ
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    }
+  </script>
+</body>
+</html>
