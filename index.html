@@ -18,6 +18,14 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
+    /* 簡易的なアニメーション */
+    @keyframes slideIn {
+      from { transform: translateX(20px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    .slide-in {
+      animation: slideIn 0.3s ease-out forwards;
+    }
   </style>
 </head>
 <body class="min-h-screen bg-gray-200 flex items-center justify-center p-4 text-gray-800">
@@ -229,64 +237,6 @@
       </div>
 
       <!-- ========================================= -->
-      <!-- 2. お相手 (プロフィール) タブ -->
-      <!-- ========================================= -->
-      <div id="tab-profile" class="tab-content hidden animate-in fade-in duration-300">
-        <!-- プロフィール画像エリア -->
-        <div class="relative w-full h-80 bg-gray-200">
-          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="花子" class="w-full h-full object-cover" />
-          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-          <div class="absolute bottom-4 left-5 text-white">
-            <h2 class="text-2xl font-bold tracking-tight mb-1">花子</h2>
-            <p class="text-sm opacity-90 flex items-center gap-1">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-              東京都 • 28歳
-            </p>
-          </div>
-        </div>
-
-        <!-- プロフィール情報エリア -->
-        <div class="px-5 py-6 space-y-6">
-          <!-- 基本情報 -->
-          <div class="bg-white p-5 rounded-[1.5rem] shadow-sm">
-            <h3 class="text-[14px] font-bold text-gray-900 mb-4 border-b pb-2">基本情報</h3>
-            <div class="grid grid-cols-2 gap-y-3 text-[13px]">
-              <div class="text-gray-500">お仕事</div>
-              <div class="text-gray-800 font-medium text-right">メーカー企画職</div>
-              <div class="text-gray-500">休日</div>
-              <div class="text-gray-800 font-medium text-right">土日休み</div>
-              <div class="text-gray-500">身長</div>
-              <div class="text-gray-800 font-medium text-right">158cm</div>
-              <div class="text-gray-500">お酒</div>
-              <div class="text-gray-800 font-medium text-right">たしなむ程度</div>
-            </div>
-          </div>
-
-          <!-- 価値観・タグ -->
-          <div>
-            <h3 class="text-[14px] font-bold text-gray-900 mb-3 px-1">大切にしていること</h3>
-            <div class="flex flex-wrap gap-2">
-              <span class="px-3 py-1.5 bg-rose-50 text-rose-600 rounded-full text-[12px] font-semibold">休日はのんびり</span>
-              <span class="px-3 py-1.5 bg-rose-50 text-rose-600 rounded-full text-[12px] font-semibold">カフェ巡り</span>
-              <span class="px-3 py-1.5 bg-rose-50 text-rose-600 rounded-full text-[12px] font-semibold">お互いを尊重</span>
-              <span class="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-full text-[12px] font-semibold">映画鑑賞</span>
-              <span class="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-full text-[12px] font-semibold">料理</span>
-            </div>
-          </div>
-
-          <!-- 自己紹介 -->
-          <div>
-            <h3 class="text-[14px] font-bold text-gray-900 mb-3 px-1">自己紹介</h3>
-            <div class="bg-white p-5 rounded-[1.5rem] shadow-sm text-[13px] text-gray-700 leading-relaxed">
-              はじめまして！プロフィールを見ていただきありがとうございます。<br><br>
-              普段はメーカーで商品の企画をしており、やりがいを感じながら働いています。休日は美味しいコーヒーを探してカフェ巡りをしたり、家で映画を見ながらのんびり過ごすことが多いです。<br><br>
-              お互いの仕事や趣味を尊重しつつ、些細なことでも話し合えるような、温かい関係を築いていけたらいいなと思っています。よろしくお願いします！
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ========================================= -->
       <!-- 3. トーク タブ (簡易モック) -->
       <!-- ========================================= -->
       <div id="tab-chat" class="tab-content hidden h-full flex flex-col bg-gray-50">
@@ -321,31 +271,39 @@
       <!-- 4. マイページ タブ (簡易モック) -->
       <!-- ========================================= -->
       <div id="tab-menu" class="tab-content hidden px-5 py-6">
-        <h1 class="text-2xl font-bold text-gray-900 mb-6">マイページ</h1>
+        <h1 class="text-2xl font-bold text-gray-900 mb-6 tracking-tight">マイページ</h1>
         
         <div class="bg-white p-5 rounded-[1.5rem] shadow-sm mb-6 flex items-center gap-4">
           <div class="w-16 h-16 rounded-full overflow-hidden bg-gray-200">
             <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover">
           </div>
           <div>
-            <h2 class="font-bold text-gray-900 text-[15px]">太郎</h2>
-            <p class="text-[12px] text-gray-500">無料会員</p>
+            <h2 class="font-bold text-gray-900 text-[16px]">太郎</h2>
+            <p class="text-[12px] text-gray-500 mt-0.5">無料会員</p>
           </div>
         </div>
 
         <div class="space-y-3">
-          <div class="bg-white p-4 rounded-[1rem] shadow-sm flex justify-between items-center text-[14px]">
-            <span class="font-medium">プロフィール編集</span>
+          <button class="w-full bg-white p-4 rounded-[1rem] shadow-sm flex justify-between items-center text-[14px] active:bg-gray-50 transition">
+            <span class="font-medium text-gray-800">プロフィール編集</span>
             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
-          </div>
-          <div class="bg-white p-4 rounded-[1rem] shadow-sm flex justify-between items-center text-[14px]">
-            <span class="font-medium">価値観診断のやり直し</span>
+          </button>
+          
+          <!-- 価値観診断起動ボタン -->
+          <button onclick="startDiagnostic()" class="w-full bg-white p-4 rounded-[1rem] shadow-sm flex justify-between items-center text-[14px] active:bg-gray-50 transition border border-transparent hover:border-rose-100">
+            <div class="flex items-center gap-2">
+              <div class="w-6 h-6 rounded-full bg-rose-50 flex items-center justify-center">
+                <svg class="w-3.5 h-3.5 text-rose-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </div>
+              <span class="font-bold text-gray-800">価値観診断のやり直し</span>
+            </div>
             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
-          </div>
-          <div class="bg-white p-4 rounded-[1rem] shadow-sm flex justify-between items-center text-[14px]">
-            <span class="font-medium">各種設定</span>
+          </button>
+
+          <button class="w-full bg-white p-4 rounded-[1rem] shadow-sm flex justify-between items-center text-[14px] active:bg-gray-50 transition">
+            <span class="font-medium text-gray-800">各種設定</span>
             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
-          </div>
+          </button>
         </div>
       </div>
 
@@ -375,7 +333,7 @@
     </div>
 
     <!-- 詳細モーダル (詳しくみる) -->
-    <div id="detail-modal" class="hidden absolute inset-0 bg-black/40 z-50 flex items-end rounded-[3rem] transition-opacity backdrop-blur-sm">
+    <div id="detail-modal" class="hidden absolute inset-0 bg-black/40 z-[60] flex items-end rounded-[3rem] transition-opacity backdrop-blur-sm">
       <div class="bg-white w-full h-[75%] rounded-t-[2.5rem] p-6 flex flex-col transition-transform transform translate-y-0">
         <!-- モーダルのドラッグハンドル -->
         <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mb-5"></div>
@@ -400,7 +358,7 @@
     </div>
 
     <!-- カウンセリング予約モーダル (アップセル導線) -->
-    <div id="counseling-modal" class="hidden absolute inset-0 bg-black/50 z-50 flex items-center justify-center p-5 rounded-[3rem] transition-opacity backdrop-blur-sm">
+    <div id="counseling-modal" class="hidden absolute inset-0 bg-black/50 z-[60] flex items-center justify-center p-5 rounded-[3rem] transition-opacity backdrop-blur-sm">
       <div class="bg-white w-full rounded-[2rem] p-7 shadow-2xl relative transform transition-all scale-100">
         <button onclick="closeModal('counseling-modal')" class="absolute top-5 right-5 p-1.5 bg-gray-100 rounded-full hover:bg-gray-200">
           <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
@@ -433,6 +391,23 @@
         <p class="text-[11px] text-gray-400 text-center mt-5">
           ※無理な勧誘等は一切ございません。
         </p>
+      </div>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- 新規追加: 価値観診断モーダル -->
+    <!-- ========================================= -->
+    <div id="diagnostic-modal" class="hidden absolute inset-0 bg-gray-50 z-[70] flex flex-col rounded-[3.5rem] overflow-hidden transition-opacity">
+      <!-- ヘッダー -->
+      <div class="bg-white px-5 py-4 flex justify-between items-center border-b border-gray-100 shadow-sm mt-8 relative z-10">
+        <button onclick="closeDiagnostic()" class="text-gray-500 text-[14px] font-medium py-1 active:text-gray-800">キャンセル</button>
+        <h3 class="text-[16px] font-bold text-gray-900 tracking-tight">価値観診断</h3>
+        <div class="w-[70px]"></div> <!-- レイアウトのバランス用 -->
+      </div>
+      
+      <!-- コンテンツエリア -->
+      <div id="diagnostic-content" class="flex-1 p-6 flex flex-col justify-center bg-white overflow-hidden relative">
+        <!-- JSで動的に質問が描画されます -->
       </div>
     </div>
 
@@ -548,7 +523,7 @@
       }
     }
 
-    // モーダルの開閉ロジック
+    // 汎用モーダルの開閉ロジック
     function openModal(modalId) {
       const modal = document.getElementById(modalId);
       if (modal) {
@@ -556,7 +531,6 @@
           generateRandomDates(); // モーダルを開くたびにランダム日時を生成
         }
         modal.classList.remove('hidden');
-        // iOS Safari対策: モーダルを開いた時に背景のスクロールを防ぐ
         document.body.style.overflow = 'hidden';
       }
     }
@@ -568,6 +542,119 @@
         document.body.style.overflow = '';
       }
     }
+
+    // ==========================================
+    // 価値観診断のロジック
+    // ==========================================
+    
+    // 質問のマスターリスト
+    const allQuestions = [
+      "休日は外に出かけるより、家でのんびり過ごしたい。",
+      "お金は将来のために貯金するより、今を楽しむために使いたい。",
+      "パートナーとは、毎日こまめに連絡を取り合いたい。",
+      "喧嘩をしたときは、すぐに話し合うより少し時間を置きたい。",
+      "家事はキッチリ分担するより、得意な方がやればいいと思う。",
+      "自分の趣味や一人の時間は、パートナーとの時間と同じくらい大切だ。",
+      "記念日や誕生日は、毎年しっかりお祝いしたい。",
+      "デートの行き先やプランは、相手に決めてもらう方が楽だ。",
+      "仕事が忙しい時は、プライベートの連絡が減っても仕方ないと思う。"
+    ];
+
+    let currentQuestions = [];
+    let currentIndex = 0;
+    const TOTAL_QUESTIONS = 5; // 1回の診断で出題する数
+
+    function startDiagnostic() {
+      // 質問リストをシャッフルして、指定数だけ抽出する
+      currentQuestions = [...allQuestions].sort(() => Math.random() - 0.5).slice(0, TOTAL_QUESTIONS);
+      currentIndex = 0;
+      
+      const modal = document.getElementById('diagnostic-modal');
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      
+      renderDiagnosticQuestion();
+    }
+
+    function renderDiagnosticQuestion() {
+      const content = document.getElementById('diagnostic-content');
+      
+      // 全ての質問に答え終わった場合
+      if (currentIndex >= currentQuestions.length) {
+        content.innerHTML = `
+          <div class="flex flex-col items-center justify-center h-full w-full slide-in text-center pb-20">
+            <div class="w-24 h-24 bg-rose-50 rounded-full flex items-center justify-center mb-6">
+              <span class="text-4xl">✨</span>
+            </div>
+            <h2 class="text-[22px] font-bold text-gray-900 mb-3 tracking-tight">診断完了！</h2>
+            <p class="text-[14px] text-gray-600 mb-10 leading-relaxed px-4">
+              あなたの新しい価値観データが<br>AIに学習されました。<br>今後のサポートに活用されます。
+            </p>
+            <button onclick="closeDiagnostic()" class="w-[80%] bg-[#1C1C1E] text-white text-[15px] font-bold py-4 rounded-[14px] shadow-md hover:bg-black active:scale-[0.98] transition">
+              マイページへ戻る
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      const questionText = currentQuestions[currentIndex];
+      // プログレスバーの計算
+      const progress = (currentIndex / currentQuestions.length) * 100;
+      
+      content.innerHTML = `
+        <div class="flex flex-col h-full w-full slide-in pb-16">
+          <!-- プログレスバー -->
+          <div class="mb-10 w-full">
+            <div class="flex justify-between text-[11px] font-bold text-gray-400 mb-2.5 px-1 tracking-wider">
+              <span>QUESTION ${currentIndex + 1}</span>
+              <span>${currentQuestions.length}</span>
+            </div>
+            <div class="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden">
+              <div class="bg-rose-400 h-full transition-all duration-500 ease-out rounded-full" style="width: ${progress}%"></div>
+            </div>
+          </div>
+          
+          <!-- 質問テキスト -->
+          <div class="flex-1 flex items-center justify-center mb-10 px-2">
+            <h2 class="text-[20px] font-bold text-gray-800 text-center leading-[1.6]">
+              「${questionText}」
+            </h2>
+          </div>
+          
+          <!-- 回答ボタン群 -->
+          <div class="space-y-3.5 mt-auto w-full">
+            <button onclick="nextDiagnostic()" class="w-full bg-rose-500 text-white text-[15px] font-bold py-4 rounded-[14px] shadow-sm active:scale-[0.98] active:bg-rose-600 transition">
+              とてもそう思う
+            </button>
+            <button onclick="nextDiagnostic()" class="w-full bg-rose-50 text-rose-600 text-[15px] font-bold py-4 rounded-[14px] active:scale-[0.98] active:bg-rose-100 transition">
+              ややそう思う
+            </button>
+            <button onclick="nextDiagnostic()" class="w-full bg-gray-100 text-gray-600 text-[15px] font-bold py-4 rounded-[14px] active:scale-[0.98] active:bg-gray-200 transition">
+              あまりそう思わない
+            </button>
+            <button onclick="nextDiagnostic()" class="w-full bg-gray-200 text-gray-700 text-[15px] font-bold py-4 rounded-[14px] active:scale-[0.98] active:bg-gray-300 transition">
+              全くそう思わない
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function nextDiagnostic() {
+      // 少し遅延を入れてから次の質問へ（UIのフィードバックを感じさせるため）
+      setTimeout(() => {
+        currentIndex++;
+        renderDiagnosticQuestion();
+      }, 150);
+    }
+
+    function closeDiagnostic() {
+      const modal = document.getElementById('diagnostic-modal');
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
   </script>
 </body>
 </html>
